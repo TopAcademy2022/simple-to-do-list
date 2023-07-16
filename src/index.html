@@ -1,0 +1,33 @@
+<head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+</head>
+<body>
+	<div class="row mt-3">
+		<div class="col-4"></div>
+		<div class="col-4">
+			<p class="text-center">Загрузить задачи из файла</p>
+			<input id="file-open" class="form-control" type="file" accept=".json" onchange="LoadDataFromFile(this)">
+		</div>
+	</div>
+	<div class="row mt-5">
+		<div class="col-4"></div>
+		<div class="col-4">
+			<p class="text-center">Создать задачу</p>
+			<div class="input-group">
+				<input id="task-text" type="text" class="form-control" placeholder="Введите название задачи" aria-label="Введите название задачи" aria-describedby="button-addon">
+				<button class="btn btn-outline-secondary" type="reset" id="button-addon" onclick="AddTask(GetTextFromTaskInputField())">Добавить задачу в список</button>
+			</div>
+		</div>
+	</div>
+	<div id="container" class="row mt-2"></div>
+	<div class="row mt-5">
+		<div class="col-5"></div>
+		<div class="col-4">
+			<a class="btn btn-primary" href="#" role="button" onclick="SaveDataToFile(this)">Сохранить задачи в файл</a>
+		</div>
+	</div>
+</body>
+<script>AddEvents()</script>
