@@ -221,6 +221,6 @@ let SaveDataToFile = (downloadButton, fileName = 'data') =>
 			downloadButton.href = '#';
 			downloadButton.download = null;
 		}
-		alert('Задач не существует!');
+		alert('Задач для сохранения не существует!');
 	}
 }
