@@ -51,6 +51,7 @@ let AddTask = (taskText, taskIsDone = false) =>
 	
 	if(String(taskText) && !CheckStringAllCharsIsSpace(taskText))
 	{
+        
 		let newRow = document.createElement('div');
 		newRow.classList.add('row');
 		
@@ -65,6 +66,8 @@ let AddTask = (taskText, taskIsDone = false) =>
 		inputGroup.classList.add('mb-3');
 		inputGroup.classList.add('mt-3');
 		
+      
+        
 		let inputTaskText = document.createElement('input');
 		inputTaskText.classList.add('form-control');
 		inputTaskText.classList.add('text-center');
@@ -79,11 +82,21 @@ let AddTask = (taskText, taskIsDone = false) =>
 		}
 		
 		inputTaskText.value = String(taskText);
-		
+        
+        let dateButton = document.createElement('button');
+		dateButton.classList.add('btn');
+		dateButton.classList.add('btn-info'); 
+      
+        let iconForDateButton = document.createElement('i');
+		iconForDateButton.classList.add('bi');
+		iconForDateButton.classList.add('bi-calendar');
+        
+        dateButton.appendChild(iconForDateButton);
+        
 		let switchStatusButton = document.createElement('button');
 		switchStatusButton.classList.add('btn');
-		switchStatusButton.classList.add('btn-primary');
-		
+		switchStatusButton.classList.add('btn-primary');    
+        
 		let iconForSwitchStatusButton = document.createElement('i');
 		iconForSwitchStatusButton.classList.add('bi');
 		iconForSwitchStatusButton.classList.add('bi-calendar-check');
@@ -125,6 +138,7 @@ let AddTask = (taskText, taskIsDone = false) =>
 			rowContainer.removeChild(deleteRow);
 		});
 		
+        inputGroup.appendChild(dateButton);
 		inputGroup.appendChild(inputTaskText);
 		inputGroup.appendChild(switchStatusButton);
 		inputGroup.appendChild(deleteButton);
