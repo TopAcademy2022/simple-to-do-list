@@ -1,3 +1,215 @@
+class Datepicker
+{
+    #_date;
+
+	#_connectedElement;
+
+	#_renderStatus;
+
+	#_idSelectMonth;
+
+    constructor(datepickerDate = new Date(), htmlElementForDatapickerConnect = null)
+	{
+		this.#_date = new Date(datepickerDate);
+		this.#_renderStatus = Boolean(false);
+		this.#_idSelectMonth = this.#_date.getMonth();
+
+        if(htmlElementForDatapickerConnect)
+        {
+            this.ConnectToHtmlElement(htmlElementForDatapickerConnect);
+        }
+	}
+
+	#SwitchRenderStatus()
+	{
+		this.#_renderStatus = Boolean(this.#_renderStatus ? false : true);
+	}
+
+	#RenderDatepickerTitle(htmlElementDatapicker)
+	{
+		const MONTH_NAMES = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+			"Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+	  	];
+
+		const DATEPICKER_TITLE = document.createElement('div');
+		DATEPICKER_TITLE.classList.add('row');
+
+		let swithMonthLeftButton = document.createElement('a');
+		swithMonthLeftButton.classList.add('col-4');
+		swithMonthLeftButton.style.textDecoration = 'none';
+		swithMonthLeftButton.innerText = '<<';
+
+		let monthText = document.createElement('p');
+		monthText.classList.add('col-4');
+		monthText.innerText = MONTH_NAMES[this.#_idSelectMonth];
+
+		let swithMonthRightButton = document.createElement('a');
+		swithMonthRightButton.classList.add('col-4');
+		swithMonthRightButton.style.textDecoration = 'none';
+		swithMonthRightButton.innerText = '>>';
+
+		swithMonthLeftButton.addEventListener('click', (event) => {
+			if(this.#_idSelectMonth > 0)
+			{
+				this.#_idSelectMonth--;
+			}
+			else
+			{
+				this.#_idSelectMonth = 11;
+			}
+
+			monthText.innerText = MONTH_NAMES[this.#_idSelectMonth];
+		});
+
+		swithMonthRightButton.addEventListener('click', (event) => {
+			if(this.#_idSelectMonth < 11)
+			{
+				this.#_idSelectMonth++;
+			}
+			else
+			{
+				this.#_idSelectMonth = 0;
+			}
+
+			monthText.innerText = MONTH_NAMES[this.#_idSelectMonth];
+		});
+
+		monthText.addEventListener('load', (event) => {
+			this.#RenderDatepickerBody(htmlElementDatapicker);
+		});
+
+		DATEPICKER_TITLE.appendChild(swithMonthLeftButton);
+		DATEPICKER_TITLE.appendChild(monthText);
+		DATEPICKER_TITLE.appendChild(swithMonthRightButton);
+
+		htmlElementDatapicker.appendChild(DATEPICKER_TITLE);
+	}
+
+	#RenderDatepickerBody(htmlElementDatapicker)
+	{
+		const DAYS_OF_WEEK = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
+
+		const DATEPICKER_BODY = document.createElement('table');
+		DATEPICKER_BODY.classList.add('table');
+		DATEPICKER_BODY.classList.add('table-primary');
+
+		let collNames = document.createElement('thead');
+		let tableCollNamesRow = document.createElement('tr');
+
+		DAYS_OF_WEEK.forEach(element => {
+			let dayOfWeek = document.createElement('th');
+			dayOfWeek.innerText = element;
+
+			tableCollNamesRow.appendChild(dayOfWeek);
+		});
+
+		collNames.appendChild(tableCollNamesRow);
+
+		let tableBody = document.createElement('tbody');
+
+		let firstWeek = document.createElement('tr');
+
+		DATEPICKER_BODY.appendChild(collNames);
+		DATEPICKER_BODY.appendChild(tableBody);
+
+		htmlElementDatapicker.appendChild(DATEPICKER_BODY);
+	}
+
+	#RenderDatepicker()
+	{
+		if(!this.#_renderStatus)
+		{
+			const DATEPICKER = document.createElement('div');
+			
+			const DATEPICKER_SCALE_MULTIPLIER_WIDTH = 6;
+			const DATEPICKER_SCALE_MULTIPLIER_HEIGHT = 3;
+			DATEPICKER.style.width = window.innerWidth / DATEPICKER_SCALE_MULTIPLIER_WIDTH;
+			DATEPICKER.style.height = window.innerHeight / DATEPICKER_SCALE_MULTIPLIER_HEIGHT;
+			DATEPICKER.style.backgroundColor = 'white';
+			DATEPICKER.style.border = 'black solid 1px';
+			DATEPICKER.style.position = 'absolute';
+			DATEPICKER.style.zIndex = 3;
+			DATEPICKER.style.marginTop = '50px';
+
+			this.#RenderDatepickerTitle(DATEPICKER);
+
+			this.#_connectedElement.parentNode.appendChild(DATEPICKER);
+			this.#_renderStatus = true;
+		}
+		else
+		{
+			//this.#_connectedElement.removeChild(this.#_connectedElement.lastChild);
+		}
+	}
+
+    ConnectToHtmlElement(htmlElement)
+    {
+		// Add event for button of select date
+		htmlElement.addEventListener('click', (event) => {
+			this.#RenderDatepicker();
+			//htmlElement.hidden = true;
+			//this.#SwitchRenderStatus();
+		});
+
+		this.#_connectedElement = htmlElement;
+    }
+}
+
+const DATEPICKER_BUTTON_TYPES = { TEXT_FIELD: 'input', TEXT_FIELD_BUTTON: 'input-group' };
+
+class DatepickerField
+{
+    #_datepicker;
+
+    #_fieldInHtmlDocument;
+
+    constructor(classListForButton = Array(), fieldType = DATEPICKER_BUTTON_TYPES.TEXT_FIELD_BUTTON)
+	{
+		this.#_datepicker = new Datepicker();
+
+        if(fieldType === DATEPICKER_BUTTON_TYPES.TEXT_FIELD || fieldType === DATEPICKER_BUTTON_TYPES.TEXT_FIELD_BUTTON)
+        {
+            const DATEPICKER_BUTTON = document.createElement('div');
+
+			if(fieldType === DATEPICKER_BUTTON_TYPES.TEXT_FIELD_BUTTON)
+			{
+				DATEPICKER_BUTTON.classList.add('d-flex');
+
+				let dateTextInput = document.createElement('input');
+				dateTextInput.type = 'date';
+
+				classListForButton.forEach(element => {
+					dateTextInput.classList.add(element);
+				});
+
+				let selectDateButton = document.createElement('button');
+				selectDateButton.classList.add('btn');
+				selectDateButton.classList.add('btn-info');
+
+				// Create icon for button of select date
+				let iconSelectDateButton = document.createElement('i');
+				iconSelectDateButton.classList.add('bi');
+				iconSelectDateButton.classList.add('bi-calendar');
+
+				selectDateButton.appendChild(iconSelectDateButton);
+
+        		this.#_datepicker.ConnectToHtmlElement(selectDateButton);
+				DATEPICKER_BUTTON.appendChild(dateTextInput);
+				DATEPICKER_BUTTON.appendChild(selectDateButton);
+			}
+
+            this.#_fieldInHtmlDocument = DATEPICKER_BUTTON;
+        }
+	}
+
+	get htmlElement()
+	{
+		return this.#_fieldInHtmlDocument;
+	}
+}
+
+
+
 class Task
 {
 	// Task name
@@ -105,6 +317,8 @@ class TaskList
 		let divTaskContents = document.createElement('div');
 		divTaskContents.classList.add(`col-${SIZE_CENTER_DIV}`);
 
+		let datepickerButton = new DatepickerField(['form-control', 'text-center']);
+
 		// Create input group for task text and control buttons
 		let taskContentsInputGroup = document.createElement('div');
 		taskContentsInputGroup.classList.add('input-group');
@@ -149,6 +363,7 @@ class TaskList
 		deleteTaskButton.innerText = 'Delete';
 
 		// Visible elements for task contents in input group
+		taskContentsInputGroup.appendChild(datepickerButton.htmlElement);
 		taskContentsInputGroup.appendChild(taskAsInputField);
 		taskContentsInputGroup.appendChild(switchTaskStatusButton);
 		taskContentsInputGroup.appendChild(deleteTaskButton);
