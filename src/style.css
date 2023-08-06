@@ -1,4 +1,8 @@
-#file-open
-{
+#file-open, #file-open-image {
 	display: none;
+}
+
+.background-color-item {
+	width: 2em;
+	height: 2em;
 }
