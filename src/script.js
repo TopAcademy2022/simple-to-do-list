@@ -381,7 +381,30 @@ let ChangeBackgroundColor = (newBackgroundColor) => {
 		navbarMenu.classList.remove(currentBackgroundColor);
 		navbarMenu.classList.add(newBackgroundColor);
 	}
+
+	
 }
+
+let ChangeBackgroundColorBody = (newBackgroundColor) => {
+	let navbarMenu = document.getElementsByTagName('body')[0];
+	let currentBackgroundColor = navbarMenu.classList[navbarMenu.classList.length - 1];
+
+	if (navbarMenu.style.backgroundImage) {
+		navbarMenu.style.backgroundImage = null;
+		navbarMenu.style.backgroundRepeat = null;
+		navbarMenu.style.backgroundSize = null;
+		navbarMenu.style.backgroundPosition = null;
+	}
+
+	if (newBackgroundColor != currentBackgroundColor) {
+		navbarMenu.classList.remove(currentBackgroundColor);
+		navbarMenu.classList.add(newBackgroundColor);
+	}
+
+	
+}
+
+
 
 let LoadImageAsBackgroundColor = (eventOpenFile) => {
 	let navbarMenu = document.getElementById('main-menu');
@@ -397,5 +420,22 @@ let LoadImageAsBackgroundColor = (eventOpenFile) => {
 	};
 
 	let openImageInput = document.getElementById('file-open-image');
+	openImageInput.value = null;
+}
+
+let LoadImageAsBackgroundColorBody = (eventOpenFile) => {
+	let navbarMenu = document.getElementsByTagName('body')[0];
+
+	let reader = new FileReader();
+	reader.readAsDataURL(eventOpenFile.files[0]);
+
+	reader.onload = function () {
+		navbarMenu.style.backgroundImage = `url(${reader.result})`;
+		navbarMenu.style.backgroundRepeat = 'no-repeat';
+		navbarMenu.style.backgroundSize = 'cover';
+		navbarMenu.style.backgroundPosition = 'center center';
+	};
+
+	let openImageInput = document.getElementById('file-open-b');
 	openImageInput.value = null;
 }
