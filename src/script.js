@@ -381,7 +381,6 @@ let ChangeBackgroundColor = (newBackgroundColor) => {
 		navbarMenu.classList.remove(currentBackgroundColor);
 		navbarMenu.classList.add(newBackgroundColor);
 	}
-
 }
 
 let ChangeBackgroundColorBody = (newBackgroundColor) => {
@@ -399,8 +398,6 @@ let ChangeBackgroundColorBody = (newBackgroundColor) => {
 		navbarMenu.classList.remove(currentBackgroundColor);
 		navbarMenu.classList.add(newBackgroundColor);
 	}
-
-	
 }
 
 let LoadImageAsBackgroundColor = (eventOpenFile) => {
