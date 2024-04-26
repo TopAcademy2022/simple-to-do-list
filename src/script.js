@@ -382,7 +382,6 @@ let ChangeBackgroundColor = (newBackgroundColor) => {
 		navbarMenu.classList.add(newBackgroundColor);
 	}
 
-	
 }
 
 let ChangeBackgroundColorBody = (newBackgroundColor) => {
@@ -403,8 +402,6 @@ let ChangeBackgroundColorBody = (newBackgroundColor) => {
 
 	
 }
-
-
 
 let LoadImageAsBackgroundColor = (eventOpenFile) => {
 	let navbarMenu = document.getElementById('main-menu');
@@ -436,6 +433,6 @@ let LoadImageAsBackgroundColorBody = (eventOpenFile) => {
 		navbarMenu.style.backgroundPosition = 'center center';
 	};
 
-	let openImageInput = document.getElementById('file-open-b');
+	let openImageInput = document.getElementById('file-open-body');
 	openImageInput.value = null;
 }
