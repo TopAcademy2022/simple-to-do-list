@@ -63,25 +63,17 @@
 						aria-expanded="false">
 					<i class="bi bi-back"></i>
 				</button>
-				<ul class="dropdown-menu">
+				<ul class="dropdown-menu bg-light">
 					<li class="d-flex justify-content-evenly">
-						<a class="dropdown-item bg-primary background-color-item" onclick="ChangeBackgroundColorBody('bg-primary')"></a>
-						<a class="dropdown-item bg-success background-color-item" onclick="ChangeBackgroundColorBody('bg-success')"></a>
-						<a class="dropdown-item bg-danger background-color-item" onclick="ChangeBackgroundColorBody('bg-danger')"></a>
-					</li>
-					<li class="d-flex justify-content-evenly mt-2">
-						<a class="dropdown-item bg-warning background-color-item" onclick="ChangeBackgroundColorBody('bg-warning')"></a>
-						<a class="dropdown-item bg-info background-color-item" onclick="ChangeBackgroundColorBody('bg-info')"></a>
-						<a class="dropdown-item bg-secondary background-color-item" onclick="ChangeBackgroundColorBody('bg-secondary')"></a>
-					</li>
-					<li class="d-flex justify-content-center mt-2">
+						<a class="dropdown-item bg-light border border-dark" style="width: 40;height: 44;margin: 4;" onclick="ChangeBackgroundColorBody('bg-light')"></a>
 						<a class="nav-link" href="#">
 							<label for="file-open-body">
 								<i class="bi bi-arrow-up-square-fill h1"></i>
 							</label>
-							<input class="dropdown-item" id="file-open-body" type="file" onchange="LoadImageAsBackgroundColorBody(this)">
+							<input class="dropdown-item"  id="file-open-body" type="file" onchange="LoadImageAsBackgroundColorBody(this)">
 						</a>
 					</li>
+					
 				</ul>
 			</div>
 		</div>

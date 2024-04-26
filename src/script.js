@@ -390,9 +390,9 @@ let ChangeBackgroundColorBody = (newBackgroundColor) => {
 
 	if (navbarMenu.style.backgroundImage) {
 		navbarMenu.style.backgroundImage = null;
-		navbarMenu.style.backgroundRepeat = null;
+		navbarMenu.style.backgroundRepeat = 'no-repeat';
 		navbarMenu.style.backgroundSize = null;
-		navbarMenu.style.backgroundPosition = null;
+		navbarMenu.style.backgroundPosition = 'center center';
 	}
 
 	if (newBackgroundColor != currentBackgroundColor) {
