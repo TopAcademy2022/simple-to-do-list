@@ -132,7 +132,7 @@ class TaskList
 		// Create button for switch task status
 		let switchTaskStatusButton = document.createElement('button');
 		switchTaskStatusButton.classList.add('btn');
-		switchTaskStatusButton.classList.add('btn-primary');
+		switchTaskStatusButton.classList.add('btn-danger');
 
 		// Create icon for button of switch task status
 		let iconSwitchTaskStatusButton = document.createElement('i');
@@ -189,11 +189,17 @@ class TaskList
 			{
 				taskAsInputField.classList.remove('text-danger');
 				taskAsInputField.classList.add('text-success');
+
+				switchTaskStatusButton.classList.remove('btn-danger');
+				switchTaskStatusButton.classList.add('btn-success');
 			}
 			else
 			{
 				taskAsInputField.classList.remove('text-success');
 				taskAsInputField.classList.add('text-danger');
+
+				switchTaskStatusButton.classList.remove('btn-success');
+				switchTaskStatusButton.classList.add('btn-danger');
 			}
 		});
 
