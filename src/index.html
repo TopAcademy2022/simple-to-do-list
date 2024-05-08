@@ -50,6 +50,7 @@
 					</li>
 					<li class="d-flex justify-content-center mt-2">
 						<a class="nav-link" href="#">
+
 							<label for="file-open-image">
 								<i class="bi bi-arrow-up-square-fill h1"></i>
 							</label>
@@ -59,18 +60,22 @@
 				</ul>
 			</div>
 			<div class="btn-group dropstart">
-				<button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown"
+				<button type="button"  class="btn btn-light dropdown-toggle"  data-bs-toggle="dropdown"
 						aria-expanded="false">
 					<i class="bi bi-back"></i>
 				</button>
 				<ul class="dropdown-menu bg-light">
 					<li class="d-flex justify-content-evenly">
-						<a class="dropdown-item bg-light border border-dark" style="width: 40;height: 44;margin: 4;" onclick="ChangeBackgroundColorBody('bg-light')"></a>
+						<a class="nav-link" href="#" onclick="ChangeBackgroundColorBody('bg-light')">
+							<label>
+								<i class="bi bi-square h1"></i>
+							</label>
+						</a>
 						<a class="nav-link" href="#">
 							<label for="file-open-body">
 								<i class="bi bi-arrow-up-square-fill h1"></i>
 							</label>
-							<input class="dropdown-item"  id="file-open-body" type="file" onchange="LoadImageAsBackgroundColorBody(this)">
+							<input class="dropdown-item"  id="file-open-body"  type="file" onchange="LoadImageAsBackgroundColorBody(this)">
 						</a>
 					</li>
 				</ul>
