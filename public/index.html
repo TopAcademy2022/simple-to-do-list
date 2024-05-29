@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>To-do list</title>
 	<link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
 	<nav class="row navbar navbar-expand-lg navbar-light bg-primary" id="main-menu">
 		<div class="col-2">
@@ -35,26 +37,33 @@
 		<div class="col-2">
 			<div class="btn-group dropstart">
 				<button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown"
-						aria-expanded="false">
+					aria-expanded="false">
 					<i class="bi bi-back"></i>
 				</button>
 				<ul class="dropdown-menu">
 					<li class="d-flex justify-content-evenly">
-						<a class="dropdown-item bg-primary background-color-item" onclick="ChangeBackgroundColor('bg-primary')"></a>
-						<a class="dropdown-item bg-success background-color-item" onclick="ChangeBackgroundColor('bg-success')"></a>
-						<a class="dropdown-item bg-danger background-color-item" onclick="ChangeBackgroundColor('bg-danger')"></a>
+						<a class="dropdown-item bg-primary background-color-item"
+							onclick="ChangeBackgroundColor('bg-primary')"></a>
+						<a class="dropdown-item bg-success background-color-item"
+							onclick="ChangeBackgroundColor('bg-success')"></a>
+						<a class="dropdown-item bg-danger background-color-item"
+							onclick="ChangeBackgroundColor('bg-danger')"></a>
 					</li>
 					<li class="d-flex justify-content-evenly mt-2">
-						<a class="dropdown-item bg-warning background-color-item" onclick="ChangeBackgroundColor('bg-warning')"></a>
-						<a class="dropdown-item bg-info background-color-item" onclick="ChangeBackgroundColor('bg-info')"></a>
-						<a class="dropdown-item bg-secondary background-color-item" onclick="ChangeBackgroundColor('bg-secondary')"></a>
+						<a class="dropdown-item bg-warning background-color-item"
+							onclick="ChangeBackgroundColor('bg-warning')"></a>
+						<a class="dropdown-item bg-info background-color-item"
+							onclick="ChangeBackgroundColor('bg-info')"></a>
+						<a class="dropdown-item bg-secondary background-color-item"
+							onclick="ChangeBackgroundColor('bg-secondary')"></a>
 					</li>
 					<li class="d-flex justify-content-center mt-2">
 						<a class="nav-link" href="#">
 							<label for="file-open-image">
 								<i class="bi bi-arrow-up-square-fill h1"></i>
 							</label>
-							<input class="dropdown-item" id="file-open-image" type="file" onchange="LoadImageAsBackgroundColor(this)">
+							<input class="dropdown-item" id="file-open-image" type="file"
+								onchange="LoadImageAsBackgroundColor(this)">
 						</a>
 					</li>
 				</ul>
@@ -66,13 +75,14 @@
 		<div class="col-4">
 			<p class="text-center">Создать задачу</p>
 			<div class="input-group">
-				<input id="task-text" type="text" class="form-control" placeholder="Введите название задачи" aria-label="Введите название задачи" aria-describedby="button-addon">
-				<button class="btn btn-outline-secondary" type="reset" id="button-addon" onclick="AddTask(GetTextFromTaskInputField())">Добавить задачу в список</button>
+				<input id="task-text" type="text" class="form-control" placeholder="Введите название задачи"
+					aria-label="Введите название задачи" aria-describedby="button-addon">
+				<button class="btn btn-outline-secondary" type="reset" id="button-addon"
+					onclick="AddTask(GetTextFromTaskInputField())">Добавить задачу в список</button>
 			</div>
 		</div>
 	</div>
 	<div id="container" class="row mt-2"></div>
 </body>
+
 </html>
-<script src="../src/script.js"></script>
-<script>AddEvents()</script>
