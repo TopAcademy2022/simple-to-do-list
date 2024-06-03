@@ -1,5 +1,9 @@
 import React from "react";
 
+const CreateTask = () => {
+    
+}
+
 export const TaskCreator: React.FunctionComponent = () => (
     <>
         <div className="row mt-5">
