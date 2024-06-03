@@ -307,6 +307,7 @@ class TaskList
 // MAIN task list
 const TASK_LIST = new TaskList();
 
+
 let AddEventEnterKeyUp = () =>
 {
 	const ENTER_KEY_CODE = 13;
@@ -324,6 +325,7 @@ let AddEventEnterKeyUp = () =>
 let AddEvents = () =>
 {
 	AddEventEnterKeyUp();
+
 }
 
 let GetTextFromTaskInputField = () =>
@@ -331,6 +333,9 @@ let GetTextFromTaskInputField = () =>
 	let taskText = document.getElementById('task-text').value;
 	return taskText;
 }
+
+let button_addon = document.getElementById("button-addon");
+button_addon.addEventListener('click', () => { AddTask(GetTextFromTaskInputField()) });
 
 let ClearTextFromTaskInputField = () =>
 {
@@ -373,10 +378,18 @@ let LoadDataFromFile = (eventOpenFile) =>
 	TASK_LIST.LoadTasksFromFile(eventOpenFile);
 }
 
+let btn_fo = document.getElementById("file-open");
+btn_fo.addEventListener('change', () => { LoadDataFromFile(btn_fo) });
+
+
 let SaveDataToFile = (downloadButton, fileName = 'data') =>
 {
 	TASK_LIST.SaveTasksToFile(downloadButton, fileName);
 }
+
+let btn_save = document.getElementById("btn-save");
+btn_save.addEventListener('click', () => { SaveDataToFile(btn_save) });
+
 
 let ChangeBackgroundColor = (newBackgroundColor) =>
 {
@@ -416,3 +429,20 @@ let LoadImageAsBackgroundColor = (eventOpenFile) =>
 	let openImageInput = document.getElementById('file-open-image');
 	openImageInput.value = null;
 }
+
+let load_image = document.getElementById("file-open-image");
+load_image.addEventListener('change', () => { LoadImageAsBackgroundColor(load_image) });
+
+var dropdown_menu = document.querySelectorAll('.dropdown-item');
+
+let array = ["bg-primary", "bg-success", "bg-danger", "bg-warning", "bg-info", "bg-secondary"];
+
+dropdown_menu.forEach(function (item)
+{
+	item.addEventListener('click', function (event)
+	{
+
+		const index = Array.prototype.indexOf.call(dropdown_menu, event.target);
+		ChangeBackgroundColor(array[index]);
+	});
+});
