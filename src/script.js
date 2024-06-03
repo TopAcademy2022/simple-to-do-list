@@ -73,9 +73,9 @@ class TaskList
 		let indexOfTask = -1;
 		let iterator = 0;
 
-		for(let taskInList of taskList)
+		for (let taskInList of taskList)
 		{
-			if(taskInList.name === findedTask.name &&
+			if (taskInList.name === findedTask.name &&
 				taskInList.status === findedTask.status)
 			{
 				indexOfTask = iterator;
@@ -165,12 +165,14 @@ class TaskList
 		tasksContainer.appendChild(taskRowHtml);
 
 		// Add event for task input of set new task text
-		taskAsInputField.addEventListener('input', (event) => {
+		taskAsInputField.addEventListener('input', (event) =>
+		{
 			task.name = event.target.value;
 		});
 
 		// Add event for button of switch task status
-		switchTaskStatusButton.addEventListener('click', (event) => {
+		switchTaskStatusButton.addEventListener('click', (event) =>
+		{
 			let targetElement = event.target;
 			let taskAsInputField;
 
@@ -204,7 +206,8 @@ class TaskList
 		});
 
 		// Add event for button of delete task
-		deleteTaskButton.addEventListener('click', (event) => {
+		deleteTaskButton.addEventListener('click', (event) =>
+		{
 			const DELETED_TASK_INDEX = TaskList.FindIndexTaskInList(taskList, task);
 			taskList = taskList.splice(DELETED_TASK_INDEX, 1);
 
@@ -231,7 +234,7 @@ class TaskList
 	{
 		this.#ClearRenderContainer();
 
-		for(let task of this.#_taskList)
+		for (let task of this.#_taskList)
 		{
 			this.#RenderTask(task, this.#_taskList);
 		}
@@ -251,9 +254,10 @@ class TaskList
 		fileReader.readAsText(eventOpenFile.files[0]);
 
 		let currentInstance = this;
-		fileReader.onloadend = function () {
+		fileReader.onloadend = function ()
+		{
 			let dataFromFile = JSON.parse(fileReader.result);
-			
+
 			for (let taskFromFile of dataFromFile)
 			{
 				let newTask = new Task(taskFromFile.taskName, taskFromFile.taskStatus);
@@ -270,11 +274,11 @@ class TaskList
 		let taskList = new Array();
 		const keysForJsonFile = ['taskName', 'taskStatus'];
 
-		if(this.#_taskList.length)
+		if (this.#_taskList.length)
 		{
 			let tasksAsJson = new Array();
 
-			for(let task of this.#_taskList)
+			for (let task of this.#_taskList)
 			{
 				let taskAsJson = {
 					[keysForJsonFile[0]]: task.name,
@@ -282,9 +286,9 @@ class TaskList
 				};
 				tasksAsJson.push(taskAsJson);
 			}
-	
+
 			var downloadFile = new Blob([JSON.stringify(tasksAsJson)], { type: 'text/plain' });
-	
+
 			downloadButton.href = URL.createObjectURL(downloadFile);
 			downloadButton.download = fileName + FILE_TYPE;
 		}
@@ -308,8 +312,10 @@ let AddEventEnterKeyUp = () =>
 	const ENTER_KEY_CODE = 13;
 	let taskText = document.getElementById('task-text');
 
-	taskText.addEventListener('keyup', (event) => {
-		if (event.keyCode === ENTER_KEY_CODE) {
+	taskText.addEventListener('keyup', (event) =>
+	{
+		if (event.keyCode === ENTER_KEY_CODE)
+		{
 			AddTask();
 		}
 	});
@@ -372,30 +378,35 @@ let SaveDataToFile = (downloadButton, fileName = 'data') =>
 	TASK_LIST.SaveTasksToFile(downloadButton, fileName);
 }
 
-let ChangeBackgroundColor = (newBackgroundColor) => {
+let ChangeBackgroundColor = (newBackgroundColor) =>
+{
 	let navbarMenu = document.getElementById('main-menu');
 	let currentBackgroundColor = navbarMenu.classList[navbarMenu.classList.length - 1];
 
-	if (navbarMenu.style.backgroundImage) {
+	if (navbarMenu.style.backgroundImage)
+	{
 		navbarMenu.style.backgroundImage = null;
 		navbarMenu.style.backgroundRepeat = null;
 		navbarMenu.style.backgroundSize = null;
 		navbarMenu.style.backgroundPosition = null;
 	}
 
-	if (newBackgroundColor != currentBackgroundColor) {
+	if (newBackgroundColor != currentBackgroundColor)
+	{
 		navbarMenu.classList.remove(currentBackgroundColor);
 		navbarMenu.classList.add(newBackgroundColor);
 	}
 }
 
-let LoadImageAsBackgroundColor = (eventOpenFile) => {
+let LoadImageAsBackgroundColor = (eventOpenFile) =>
+{
 	let navbarMenu = document.getElementById('main-menu');
 
 	let reader = new FileReader();
 	reader.readAsDataURL(eventOpenFile.files[0]);
 
-	reader.onload = function () {
+	reader.onload = function ()
+	{
 		navbarMenu.style.backgroundImage = `url(${reader.result})`;
 		navbarMenu.style.backgroundRepeat = 'no-repeat';
 		navbarMenu.style.backgroundSize = 'cover';
