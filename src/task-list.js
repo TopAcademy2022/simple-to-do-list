@@ -225,7 +225,7 @@ class TaskList
 
 			for (let taskFromFile of dataFromFile)
 			{
-				let newTask = new Task(taskFromFile.taskName, taskFromFile.taskStatus);
+				let newTask = new Task(taskFromFile.taskName, 1, new Date(), taskFromFile.taskStatus);
 				currentInstance.AddTask(newTask);
 				currentInstance.RenderAllTasks();
 			}
