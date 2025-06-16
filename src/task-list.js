@@ -225,7 +225,7 @@ class TaskList
 
 			for (let taskFromFile of dataFromFile)
 			{
-				let newTask = new Task(taskFromFile.taskName, 1, new Date(), taskFromFile.taskStatus);
+				let newTask = new Task(taskFromFile.taskName, 1, new Date(taskFromFile.taskDate),taskFromFile.taskPriority,taskFromFile.taskStatus);
 				currentInstance.AddTask(newTask);
 				currentInstance.RenderAllTasks();
 			}
@@ -237,7 +237,7 @@ class TaskList
 		const FILE_TYPE = '.json';
 
 		let taskList = new Array();
-		const keysForJsonFile = ['taskName', 'taskStatus'];
+		const keysForJsonFile = ['taskName', 'taskStatus', 'taskDate', 'taskPriority'];
 
 		if (this.#_taskList.length)
 		{
@@ -247,7 +247,9 @@ class TaskList
 			{
 				let taskAsJson = {
 					[keysForJsonFile[0]]: task.name,
-					[keysForJsonFile[1]]: task.status
+					[keysForJsonFile[1]]: task.status,
+					[keysForJsonFile[2]]: task.Date,
+					[keysForJsonFile[3]]: task.Priority
 				};
 				tasksAsJson.push(taskAsJson);
 			}
