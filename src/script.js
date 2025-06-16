@@ -89,6 +89,9 @@ class TaskList
 
 	#RenderTask(task, taskList)
 	{
+
+		let myInput = document.createElement('input');
+
 		// Render size
 		const SIZE_INDENT_LEFT = 3;
 		const SIZE_CENTER_DIV = 6;
@@ -115,6 +118,8 @@ class TaskList
 		let taskAsInputField = document.createElement('input');
 		taskAsInputField.classList.add('form-control');
 		taskAsInputField.classList.add('text-center');
+
+
 
 		// Set task color
 		if (task.status)
@@ -149,6 +154,9 @@ class TaskList
 		deleteTaskButton.innerText = 'Delete';
 
 		// Visible elements for task contents in input group
+		taskContentsInputGroup.appendChild(myInput);
+        myInput.setAttribute('type', 'date');
+		myInput.setAttribute('class', 'input-group-text')
 		taskContentsInputGroup.appendChild(taskAsInputField);
 		taskContentsInputGroup.appendChild(switchTaskStatusButton);
 		taskContentsInputGroup.appendChild(deleteTaskButton);
@@ -260,48 +268,48 @@ class TaskList
 
 			for (let taskFromFile of dataFromFile)
 			{
-				let newTask = new Task(taskFromFile.taskName, taskFromFile.taskStatus);
+                let newTask = new Task(taskFromFile.taskName, taskFromFile.taskPriority, taskFromFile.taskDate, taskFromFile.taskStatus);
+
 				currentInstance.AddTask(newTask);
 				currentInstance.RenderAllTasks();
 			}
 		};
 	}
 
-	SaveTasksToFile(downloadButton, fileName)
-	{
-		const FILE_TYPE = '.json';
+SaveTasksToFile(downloadButton, fileName)    {        const FILE_TYPE = '.json';
 
-		let taskList = new Array();
-		const keysForJsonFile = ['taskName', 'taskStatus'];
 
-		if (this.#_taskList.length)
-		{
-			let tasksAsJson = new Array();
+    let taskList = new Array();
+    const keysForJsonFile = ['taskName', 'taskStatus'];
 
-			for (let task of this.#_taskList)
-			{
-				let taskAsJson = {
-					[keysForJsonFile[0]]: task.name,
-					[keysForJsonFile[1]]: task.status
-				};
-				tasksAsJson.push(taskAsJson);
-			}
+    if (this.#_taskList.length)
+    {
+        let tasksAsJson = new Array();
 
-			var downloadFile = new Blob([JSON.stringify(tasksAsJson)], { type: 'text/plain' });
+        for (let task of this.#_taskList)
+        {
+            let taskAsJson = {
+                [keysForJsonFile[0]]: task.name,
+                [keysForJsonFile[1]]: task.status
+            };
+            tasksAsJson.push(taskAsJson);
+        }
 
-			downloadButton.href = URL.createObjectURL(downloadFile);
-			downloadButton.download = fileName + FILE_TYPE;
-		}
-		else
-		{
-			if (Number(String(downloadButton.href).indexOf('blob')) != -1)
-			{
-				downloadButton.href = '#';
-				downloadButton.download = null;
-			}
-			alert('Задач для сохранения не существует!');
-		}
-	}
+        var downloadFile = new Blob([JSON.stringify(tasksAsJson)], { type: 'text/plain' });
+
+        downloadButton.href = URL.createObjectURL(downloadFile);
+        downloadButton.download = fileName + FILE_TYPE;
+    }
+    else
+    {
+        if (Number(String(downloadButton.href).indexOf('blob')) != -1)
+        {
+            downloadButton.href = '#';
+            downloadButton.download = null;
+        }
+        alert('Задач для сохранения не существует!');
+    }
+}
 }
 
 // MAIN task list
