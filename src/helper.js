@@ -3,13 +3,14 @@ const TASK_LIST = new TaskList();
 
 let AddEventEnterKeyUp = (taskText) => {
     const ENTER_KEY_CODE = 13;
-    
+
     taskText.addEventListener('keyup', (event) => {
         if (event.keyCode === ENTER_KEY_CODE) {
             AddTask();
         }
     });
 }
+
 let AddEvents = (taskText) => {
     AddEventEnterKeyUp(taskText);
 }
@@ -18,6 +19,7 @@ let GetTextFromTaskInputField = () => {
     let taskText = document.getElementById('task-text').value;
     return taskText;
 }
+
 let ClearTextFromTaskInputField = () => {
     let taskText = document.getElementById('task-text');
     taskText.value = null;
@@ -35,6 +37,7 @@ let CheckStringAllCharsIsSpace = (str) => {
 
     return result;
 }
+
 let AddTask = () => {
     let taskText = GetTextFromTaskInputField();
 
@@ -46,12 +49,15 @@ let AddTask = () => {
 
     ClearTextFromTaskInputField();
 }
+
 let LoadDataFromFile = (eventOpenFile) => {
     TASK_LIST.LoadTasksFromFile(eventOpenFile);
 }
+
 let SaveDataToFile = (downloadButton, fileName = 'data') => {
     TASK_LIST.SaveTasksToFile(downloadButton, fileName);
 }
+
 let ChangeBackgroundColor = (newBackgroundColor) => {
     let navbarMenu = document.getElementById('main-menu');
     let currentBackgroundColor = navbarMenu.classList[navbarMenu.classList.length - 1];
