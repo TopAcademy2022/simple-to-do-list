@@ -1,40 +1,32 @@
-class TaskList
-{
+class TaskList {
 	// List of tasks
 	#_taskList;
 
-	constructor()
-	{
+	constructor() {
 		this.#_taskList = new Array();
 	}
 
-	get taskList()
-	{
+	get taskList() {
 		return this.#_taskList;
 	}
 
 	// Remove all tasks from task list
-	#RemoveAllTasks()
-	{
+	#RemoveAllTasks() {
 		this.#_taskList.splice(0, this.#_taskList.length);
 	}
 
-	#ClearRenderContainer()
-	{
+	#ClearRenderContainer() {
 		let tasksContainer = document.getElementById('container');
 		tasksContainer.innerHTML = null;
 	}
 
-	static FindIndexTaskInList(taskList, findedTask)
-	{
+	static FindIndexTaskInList(taskList, findedTask) {
 		let indexOfTask = -1;
 		let iterator = 0;
 
-		for (let taskInList of taskList)
-		{
+		for (let taskInList of taskList) {
 			if (taskInList.name === findedTask.name &&
-				taskInList.status === findedTask.status)
-			{
+				taskInList.status === findedTask.status) {
 				indexOfTask = iterator;
 				break;
 			}
@@ -44,14 +36,13 @@ class TaskList
 		return indexOfTask;
 	}
 
-	#RenderTask(task, taskList)
-	{
+	#RenderTask(task, taskList) {
 		let Input = document.createElement('input');
 
 		// Render size
 		const SIZE_INDENT_LEFT = 3;
 		const SIZE_CENTER_DIV = 6;
-	
+
 
 		// Create main row for task
 		let taskRowHtml = document.createElement('div');
@@ -78,12 +69,10 @@ class TaskList
 
 
 		// Set task color
-		if (task.status)
-		{
+		if (task.status) {
 			taskAsInputField.classList.add('text-success');
 		}
-		else
-		{
+		else {
 			taskAsInputField.classList.add('text-danger');
 		}
 
@@ -110,14 +99,14 @@ class TaskList
 		deleteTaskButton.innerText = 'Delete';
 
 		// Visible elements for task contents in input group
-		
+
 		taskContentsInputGroup.appendChild(Input);
-		Input.setAttribute('type' , 'Date');
-		Input.setAttribute('class' , 'input-group-text');
+		Input.setAttribute('type', 'Date');
+		Input.setAttribute('class', 'input-group-text');
 		taskContentsInputGroup.appendChild(taskAsInputField);
 		taskContentsInputGroup.appendChild(switchTaskStatusButton);
 		taskContentsInputGroup.appendChild(deleteTaskButton);
-		
+
 		// Visible input group with task contents
 		divTaskContents.appendChild(taskContentsInputGroup);
 
@@ -130,38 +119,32 @@ class TaskList
 		tasksContainer.appendChild(taskRowHtml);
 
 		// Add event for task input of set new task text
-		taskAsInputField.addEventListener('input', (event) =>
-		{
+		taskAsInputField.addEventListener('input', (event) => {
 			task.name = event.target.value;
 		});
 
 		// Add event for button of switch task status
-		switchTaskStatusButton.addEventListener('click', (event) =>
-		{
+		switchTaskStatusButton.addEventListener('click', (event) => {
 			let targetElement = event.target;
 			let taskAsInputField;
 
-			if (targetElement.classList.contains('bi'))
-			{
+			if (targetElement.classList.contains('bi')) {
 				taskAsInputField = targetElement.parentNode.parentNode.firstChild;
 			}
-			else
-			{
+			else {
 				taskAsInputField = targetElement.parentNode.firstChild;
 			}
 
 			task.status = Boolean(!task.status);
 
-			if (task.status)
-			{
+			if (task.status) {
 				taskAsInputField.classList.remove('text-danger');
 				taskAsInputField.classList.add('text-success');
 
 				switchTaskStatusButton.classList.remove('btn-danger');
 				switchTaskStatusButton.classList.add('btn-success');
 			}
-			else
-			{
+			else {
 				taskAsInputField.classList.remove('text-success');
 				taskAsInputField.classList.add('text-danger');
 
@@ -171,8 +154,7 @@ class TaskList
 		});
 
 		// Add event for button of delete task
-		deleteTaskButton.addEventListener('click', (event) =>
-		{
+		deleteTaskButton.addEventListener('click', (event) => {
 			const DELETED_TASK_INDEX = TaskList.FindIndexTaskInList(taskList, task);
 			taskList = taskList.splice(DELETED_TASK_INDEX, 1);
 
@@ -183,100 +165,86 @@ class TaskList
 	}
 
 	// Add new task in task list
-	AddTask(task)
-	{
-		if (task instanceof Task)
-		{
+	AddTask(task) {
+		if (task instanceof Task) {
 			this.#_taskList.push(task);
 		}
-		else
-		{
+		else {
 			console.log('this object not Task member');
 		}
 	}
 
-	RenderAllTasks()
-	{
+	RenderAllTasks() {
 		this.#ClearRenderContainer();
 
-		for (let task of this.#_taskList)
-		{
+		for (let task of this.#_taskList) {
 			this.#RenderTask(task, this.#_taskList);
 		}
 	}
 
-SaveTasksToFile(downloadButton, fileName)
-{
-	const FILE_TYPE = '.json';
+	SaveTasksToFile(downloadButton, fileName) {
+		const FILE_TYPE = '.json';
 
-	if (this.#_taskList.length)
-	{
-		let tasksAsJson = [];
+		if (this.#_taskList.length) {
+			let tasksAsJson = [];
 
-		for (let task of this.#_taskList)
-		{
-let taskAsJson = {
-	taskName: task.name,
-	taskStatus: task.status,
-	taskDate: task.date.toISOString(),
-	taskPriority: task.priority
-};
+			for (let task of this.#_taskList) {
+				let taskAsJson = {
+					taskName: task.name,
+					taskStatus: task.status,
+					taskDate: task.date.toISOString(),
+					taskPriority: task.priority
+				};
 
-			tasksAsJson.push(taskAsJson);
-		}
-
-		let downloadFile = new Blob([JSON.stringify(tasksAsJson, null, 2)], { type: 'application/json' });
-
-		downloadButton.href = URL.createObjectURL(downloadFile);
-		downloadButton.download = fileName + FILE_TYPE;
-	}
-	else
-	{
-		if (String(downloadButton.href).includes('blob'))
-		{
-			downloadButton.href = '#';
-			downloadButton.download = null;
-		}
-		alert('Задач для сохранения не существует!');
-	}
-}
-
-
-LoadTasksFromFile(eventOpenFile)
-{
-	if (this.#_taskList.length)
-	{
-		if (confirm('Хотите ли удалить уже существующие задачи?'))
-		{
-			this.#RemoveAllTasks();
-		}
-	}
-
-	let fileReader = new FileReader();
-	fileReader.readAsText(eventOpenFile.files[0]);
-
-	fileReader.onloadend = () => {
-		try {
-			let dataFromFile = JSON.parse(fileReader.result);
-
-			for (let taskFromFile of dataFromFile)
-			{
-let newTask = new Task(
-	taskFromFile.taskName,
-	Number(taskFromFile.taskPriority),
-	new Date(taskFromFile.taskDate),
-	Boolean(taskFromFile.taskStatus)
-);
-
-				this.AddTask(newTask);
+				tasksAsJson.push(taskAsJson);
 			}
 
-			this.RenderAllTasks();
-		} catch (e) {
-			alert("Ошибка загрузки задач: " + e.message);
-			console.error(e);
+			let downloadFile = new Blob([JSON.stringify(tasksAsJson, null, 2)], { type: 'application/json' });
+
+			downloadButton.href = URL.createObjectURL(downloadFile);
+			downloadButton.download = fileName + FILE_TYPE;
 		}
-	};
-}
+		else {
+			if (String(downloadButton.href).includes('blob')) {
+				downloadButton.href = '#';
+				downloadButton.download = null;
+			}
+			alert('Задач для сохранения не существует!');
+		}
+	}
+
+
+	LoadTasksFromFile(eventOpenFile) {
+		if (this.#_taskList.length) {
+			if (confirm('Хотите ли удалить уже существующие задачи?')) {
+				this.#RemoveAllTasks();
+			}
+		}
+
+		let fileReader = new FileReader();
+		fileReader.readAsText(eventOpenFile.files[0]);
+
+		fileReader.onloadend = () => {
+			try {
+				let dataFromFile = JSON.parse(fileReader.result);
+
+				for (let taskFromFile of dataFromFile) {
+					let newTask = new Task(
+						taskFromFile.taskName,
+						Number(taskFromFile.taskPriority),
+						new Date(taskFromFile.taskDate),
+						Boolean(taskFromFile.taskStatus)
+					);
+
+					this.AddTask(newTask);
+				}
+
+				this.RenderAllTasks();
+			} catch (e) {
+				alert("Ошибка загрузки задач: " + e.message);
+				console.error(e);
+			}
+		};
+	}
 
 }
