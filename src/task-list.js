@@ -129,10 +129,10 @@ class TaskList {
 			let taskAsInputField;
 
 			if (targetElement.classList.contains('bi')) {
-				taskAsInputField = targetElement.parentNode.parentNode.firstChild;
+				taskAsInputField = targetElement.parentNode.parentNode.children[1];
 			}
 			else {
-				taskAsInputField = targetElement.parentNode.firstChild;
+				taskAsInputField = targetElement.parentNode.children[1];
 			}
 
 			task.status = Boolean(!task.status);
@@ -143,8 +143,7 @@ class TaskList {
 
 				switchTaskStatusButton.classList.remove('btn-danger');
 				switchTaskStatusButton.classList.add('btn-success');
-			}
-			else {
+			} else {
 				taskAsInputField.classList.remove('text-success');
 				taskAsInputField.classList.add('text-danger');
 
@@ -152,6 +151,7 @@ class TaskList {
 				switchTaskStatusButton.classList.add('btn-danger');
 			}
 		});
+
 
 		// Add event for button of delete task
 		deleteTaskButton.addEventListener('click', (event) => {
