@@ -205,68 +205,78 @@ class TaskList
 		}
 	}
 
-	LoadTasksFromFile(eventOpenFile)
+SaveTasksToFile(downloadButton, fileName)
+{
+	const FILE_TYPE = '.json';
+
+	if (this.#_taskList.length)
 	{
-		if (this.#_taskList.length)
+		let tasksAsJson = [];
+
+		for (let task of this.#_taskList)
 		{
-			if (confirm('Хотите ли удалить уже существующие задачи?'))
-			{
-				this.#RemoveAllTasks();
-			}
+let taskAsJson = {
+	taskName: task.name,
+	taskStatus: task.status,
+	taskDate: task.date.toISOString(),
+	taskPriority: task.priority
+};
+
+			tasksAsJson.push(taskAsJson);
 		}
 
-		let fileReader = new FileReader();
-		fileReader.readAsText(eventOpenFile.files[0]);
+		let downloadFile = new Blob([JSON.stringify(tasksAsJson, null, 2)], { type: 'application/json' });
 
-		let currentInstance = this;
-		fileReader.onloadend = function ()
+		downloadButton.href = URL.createObjectURL(downloadFile);
+		downloadButton.download = fileName + FILE_TYPE;
+	}
+	else
+	{
+		if (String(downloadButton.href).includes('blob'))
 		{
+			downloadButton.href = '#';
+			downloadButton.download = null;
+		}
+		alert('Задач для сохранения не существует!');
+	}
+}
+
+
+LoadTasksFromFile(eventOpenFile)
+{
+	if (this.#_taskList.length)
+	{
+		if (confirm('Хотите ли удалить уже существующие задачи?'))
+		{
+			this.#RemoveAllTasks();
+		}
+	}
+
+	let fileReader = new FileReader();
+	fileReader.readAsText(eventOpenFile.files[0]);
+
+	fileReader.onloadend = () => {
+		try {
 			let dataFromFile = JSON.parse(fileReader.result);
 
 			for (let taskFromFile of dataFromFile)
 			{
-				let newTask = new Task(taskFromFile.taskName, 1, new Date(taskFromFile.taskDate),taskFromFile.taskPriority,taskFromFile.taskStatus);
-				currentInstance.AddTask(newTask);
-				currentInstance.RenderAllTasks();
-			}
-		};
-	}
+let newTask = new Task(
+	taskFromFile.taskName,
+	Number(taskFromFile.taskPriority),
+	new Date(taskFromFile.taskDate),
+	Boolean(taskFromFile.taskStatus)
+);
 
-	SaveTasksToFile(downloadButton, fileName)
-	{
-		const FILE_TYPE = '.json';
-
-		let taskList = new Array();
-		const keysForJsonFile = ['taskName', 'taskStatus', 'taskDate', 'taskPriority'];
-
-		if (this.#_taskList.length)
-		{
-			let tasksAsJson = new Array();
-
-			for (let task of this.#_taskList)
-			{
-				let taskAsJson = {
-					[keysForJsonFile[0]]: task.name,
-					[keysForJsonFile[1]]: task.status,
-					[keysForJsonFile[2]]: task.Date,
-					[keysForJsonFile[3]]: task.Priority
-				};
-				tasksAsJson.push(taskAsJson);
+				this.AddTask(newTask);
 			}
 
-			var downloadFile = new Blob([JSON.stringify(tasksAsJson)], { type: 'text/plain' });
-
-			downloadButton.href = URL.createObjectURL(downloadFile);
-			downloadButton.download = fileName + FILE_TYPE;
+			this.RenderAllTasks();
+		} catch (e) {
+			alert("Ошибка загрузки задач: " + e.message);
+			console.error(e);
 		}
-		else
-		{
-			if (Number(String(downloadButton.href).indexOf('blob')) != -1)
-			{
-				downloadButton.href = '#';
-				downloadButton.download = null;
-			}
-			alert('Задач для сохранения не существует!');
-		}
-	}
+	};
+}
+
 }

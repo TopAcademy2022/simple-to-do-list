@@ -1,5 +1,4 @@
-class Task
-{
+class Task {
 	// Task name
 	#_name;
 
@@ -12,32 +11,35 @@ class Task
 	// Task status
 	#_isDone;
 
-	constructor(taskName, taskPriority = Number(0), taskDate = new Date(), taskIsDone = Boolean(false))
-	{
+	constructor(taskName, taskPriority = Number(0), taskDate = new Date(), taskIsDone = Boolean(false)) {
 		this.#_name = String(taskName);
 		this.#_priority = Number(taskPriority);
 		this.#_date = new Date(taskDate);
 		this.#_isDone = Boolean(taskIsDone);
 	}
 
-	get name()
-	{
+	get name() {
 		return this.#_name;
 	}
 
-	set name(newName)
-	{
+	set name(newName) {
 		this.#_name = String(newName);
 	}
 
-	get status()
-	{
+	get status() {
 		return this.#_isDone;
 	}
 
-	set status(newStatus)
-	{
+	set status(newStatus) {
 		this.#_isDone = Boolean(newStatus);
 	}
+	get priority() {
+		return this.#_priority;
+	}
+
+	get date() {
+		return this.#_date;
+	}
+
 }
 
