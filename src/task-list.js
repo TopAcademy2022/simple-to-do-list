@@ -72,9 +72,24 @@ class TaskList
 		taskContentsInputGroup.classList.add('mt-3');
 
 		// Create input with task text
-		let taskAsInputField = document.createElement('input');
-		taskAsInputField.classList.add('form-control');
-		taskAsInputField.classList.add('text-center');
+		const taskAsInputField = document.createElement('textarea');
+		taskAsInputField.id = 'stretchableInput';
+
+		taskAsInputField.value;
+		taskAsInputField.style.width = '650px';
+		taskAsInputField.style.height = '50px';
+
+		taskAsInputField.style.overflowY = 'hidden';
+		taskAsInputField.style.resize = 'none';
+		taskAsInputField.style.fontFamily = 'Arial, sans-serif';
+		taskAsInputField.style.fontSize = '14px';
+		taskAsInputField.style.padding = '8px';
+		taskAsInputField.style.boxSizing = 'border-box';
+
+		document.body.appendChild(taskAsInputField);
+
+
+
 
 
 		// Set task color
