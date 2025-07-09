@@ -38,6 +38,9 @@ class TaskList {
 
 	#RenderTask(task, taskList) {
 		let Input = document.createElement('input');
+        Input.type = 'date';
+        Input.value = new Date().toISOString().split('T')[0];
+
 
 		// Render size
 		const SIZE_INDENT_LEFT = 3;
@@ -63,10 +66,21 @@ class TaskList {
 		taskContentsInputGroup.classList.add('mt-3');
 
 		// Create input with task text
-		let taskAsInputField = document.createElement('input');
-		taskAsInputField.classList.add('form-control');
-		taskAsInputField.classList.add('text-center');
+		const taskAsInputField = document.createElement('textarea');
+		taskAsInputField.id = 'stretchableInput';
 
+		taskAsInputField.value;
+		taskAsInputField.style.width = '650px';
+		taskAsInputField.style.height = '50px';
+
+		taskAsInputField.style.overflowY = 'hidden';
+		taskAsInputField.style.resize = 'none';
+		taskAsInputField.style.fontFamily = 'Arial, sans-serif';
+		taskAsInputField.style.fontSize = '14px';
+		taskAsInputField.style.padding = '8px';
+		taskAsInputField.style.boxSizing = 'border-box';
+
+		document.body.appendChild(taskAsInputField);
 
 		// Set task color
 		if (task.status) {
@@ -124,6 +138,7 @@ class TaskList {
 		});
 
 		// Add event for button of switch task status
+
 		let TaskStatusStyles = (task, buttonElement, textElement) => {
 			if (task.status) {
 				textElement.classList.remove('text-danger');
@@ -157,8 +172,6 @@ class TaskList {
 
 		let taskTextElement = switchTaskStatusButton.parentNode.children[1];
 		TaskStatusStyles(task, switchTaskStatusButton, taskTextElement);
-
-
 
 		// Add event for button of delete task
 		deleteTaskButton.addEventListener('click', (event) => {
@@ -253,5 +266,4 @@ class TaskList {
 			}
 		};
 	}
-
 }
