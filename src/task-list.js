@@ -124,33 +124,40 @@ class TaskList {
 		});
 
 		// Add event for button of switch task status
+		let TaskStatusStyles = (task, buttonElement, textElement) => {
+			if (task.status) {
+				textElement.classList.remove('text-danger');
+				textElement.classList.add('text-success');
+
+				buttonElement.classList.remove('btn-danger');
+				buttonElement.classList.add('btn-success');
+			} else {
+				textElement.classList.remove('text-success');
+				textElement.classList.add('text-danger');
+
+				buttonElement.classList.remove('btn-success');
+				buttonElement.classList.add('btn-danger');
+			}
+		};
+
 		switchTaskStatusButton.addEventListener('click', (event) => {
 			let targetElement = event.target;
 			let taskAsInputField;
 
 			if (targetElement.classList.contains('bi')) {
 				taskAsInputField = targetElement.parentNode.parentNode.children[1];
-			}
-			else {
+			} else {
 				taskAsInputField = targetElement.parentNode.children[1];
 			}
 
-			task.status = Boolean(!task.status);
+			task.status = !task.status;
 
-			if (task.status) {
-				taskAsInputField.classList.remove('text-danger');
-				taskAsInputField.classList.add('text-success');
-
-				switchTaskStatusButton.classList.remove('btn-danger');
-				switchTaskStatusButton.classList.add('btn-success');
-			} else {
-				taskAsInputField.classList.remove('text-success');
-				taskAsInputField.classList.add('text-danger');
-
-				switchTaskStatusButton.classList.remove('btn-success');
-				switchTaskStatusButton.classList.add('btn-danger');
-			}
+			TaskStatusStyles(task, switchTaskStatusButton, taskAsInputField);
 		});
+
+		let taskTextElement = switchTaskStatusButton.parentNode.children[1];
+		TaskStatusStyles(task, switchTaskStatusButton, taskTextElement);
+
 
 
 		// Add event for button of delete task
