@@ -1,8 +1,14 @@
-#file-open, #file-open-image {
+#file-open,
+#file-open-image {
 	display: none;
 }
 
 .background-color-item {
 	width: 2em;
 	height: 2em;
+}
+
+.completed {
+	text-decoration: line-through;
+	opacity: 0.7;
 }

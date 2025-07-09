@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		item.addEventListener('click', function (event) {
 
 			const index = Array.prototype.indexOf.call(dropdown_menu, event.target);
-			
+
 			ChangeBackgroundColor(array[index]);
 		});
 	});
@@ -26,25 +26,3 @@ document.addEventListener("DOMContentLoaded", () => {
 	let taskText = document.getElementById('task-text');
 	AddEvents(taskText);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

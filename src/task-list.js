@@ -37,9 +37,6 @@ class TaskList {
 	}
 
 	#RenderTask(task, taskList) {
-		// let Input = document.createElement('input');
-		// Input.value = '2025-07-01'; 
-
 		let Input = document.createElement('input');
         Input.type = 'date';
         Input.value = new Date().toISOString().split('T')[0];
@@ -84,10 +81,6 @@ class TaskList {
 		taskAsInputField.style.boxSizing = 'border-box';
 
 		document.body.appendChild(taskAsInputField);
-
-
-
-
 
 		// Set task color
 		if (task.status) {
@@ -145,34 +138,40 @@ class TaskList {
 		});
 
 		// Add event for button of switch task status
+
+		let TaskStatusStyles = (task, buttonElement, textElement) => {
+			if (task.status) {
+				textElement.classList.remove('text-danger');
+				textElement.classList.add('text-success');
+
+				buttonElement.classList.remove('btn-danger');
+				buttonElement.classList.add('btn-success');
+			} else {
+				textElement.classList.remove('text-success');
+				textElement.classList.add('text-danger');
+
+				buttonElement.classList.remove('btn-success');
+				buttonElement.classList.add('btn-danger');
+			}
+		};
+
 		switchTaskStatusButton.addEventListener('click', (event) => {
 			let targetElement = event.target;
 			let taskAsInputField;
 
 			if (targetElement.classList.contains('bi')) {
-				taskAsInputField = targetElement.parentNode.parentNode.firstChild;
-			}
-			else {
-				taskAsInputField = targetElement.parentNode.firstChild;
+				taskAsInputField = targetElement.parentNode.parentNode.children[1];
+			} else {
+				taskAsInputField = targetElement.parentNode.children[1];
 			}
 
-			task.status = Boolean(!task.status);
+			task.status = !task.status;
 
-			if (task.status) {
-				taskAsInputField.classList.remove('text-danger');
-				taskAsInputField.classList.add('text-success');
-
-				switchTaskStatusButton.classList.remove('btn-danger');
-				switchTaskStatusButton.classList.add('btn-success');
-			}
-			else {
-				taskAsInputField.classList.remove('text-success');
-				taskAsInputField.classList.add('text-danger');
-
-				switchTaskStatusButton.classList.remove('btn-success');
-				switchTaskStatusButton.classList.add('btn-danger');
-			}
+			TaskStatusStyles(task, switchTaskStatusButton, taskAsInputField);
 		});
+
+		let taskTextElement = switchTaskStatusButton.parentNode.children[1];
+		TaskStatusStyles(task, switchTaskStatusButton, taskTextElement);
 
 		// Add event for button of delete task
 		deleteTaskButton.addEventListener('click', (event) => {
@@ -203,6 +202,38 @@ class TaskList {
 		}
 	}
 
+	SaveTasksToFile(downloadButton, fileName) {
+		const FILE_TYPE = '.json';
+
+		if (this.#_taskList.length) {
+			let tasksAsJson = [];
+
+			for (let task of this.#_taskList) {
+				let taskAsJson = {
+					taskName: task.name,
+					taskStatus: task.status,
+					taskDate: task.date.toISOString(),
+					taskPriority: task.priority
+				};
+
+				tasksAsJson.push(taskAsJson);
+			}
+
+			let downloadFile = new Blob([JSON.stringify(tasksAsJson, null, 2)], { type: 'application/json' });
+
+			downloadButton.href = URL.createObjectURL(downloadFile);
+			downloadButton.download = fileName + FILE_TYPE;
+		}
+		else {
+			if (String(downloadButton.href).includes('blob')) {
+				downloadButton.href = '#';
+				downloadButton.download = null;
+			}
+			alert('Задач для сохранения не существует!');
+		}
+	}
+
+
 	LoadTasksFromFile(eventOpenFile) {
 		if (this.#_taskList.length) {
 			if (confirm('Хотите ли удалить уже существующие задачи?')) {
@@ -213,46 +244,26 @@ class TaskList {
 		let fileReader = new FileReader();
 		fileReader.readAsText(eventOpenFile.files[0]);
 
-		let currentInstance = this;
-		fileReader.onloadend = function () {
-			let dataFromFile = JSON.parse(fileReader.result);
+		fileReader.onloadend = () => {
+			try {
+				let dataFromFile = JSON.parse(fileReader.result);
 
-			for (let taskFromFile of dataFromFile) {
-				let newTask = new Task(taskFromFile.taskName, taskFromFile.taskStatus);
-				currentInstance.AddTask(newTask);
-				currentInstance.RenderAllTasks();
+				for (let taskFromFile of dataFromFile) {
+					let newTask = new Task(
+						taskFromFile.taskName,
+						Number(taskFromFile.taskPriority),
+						new Date(taskFromFile.taskDate),
+						Boolean(taskFromFile.taskStatus)
+					);
+
+					this.AddTask(newTask);
+				}
+
+				this.RenderAllTasks();
+			} catch (e) {
+				alert("Ошибка загрузки задач: " + e.message);
+				console.error(e);
 			}
 		};
-	}
-
-	SaveTasksToFile(downloadButton, fileName) {
-		const FILE_TYPE = '.json';
-
-		let taskList = new Array();
-		const keysForJsonFile = ['taskName', 'taskStatus'];
-
-		if (this.#_taskList.length) {
-			let tasksAsJson = new Array();
-
-			for (let task of this.#_taskList) {
-				let taskAsJson = {
-					[keysForJsonFile[0]]: task.name,
-					[keysForJsonFile[1]]: task.status
-				};
-				tasksAsJson.push(taskAsJson);
-			}
-
-			var downloadFile = new Blob([JSON.stringify(tasksAsJson)], { type: 'text/plain' });
-
-			downloadButton.href = URL.createObjectURL(downloadFile);
-			downloadButton.download = fileName + FILE_TYPE;
-		}
-		else {
-			if (Number(String(downloadButton.href).indexOf('blob')) != -1) {
-				downloadButton.href = '#';
-				downloadButton.download = null;
-			}
-			alert('Задач для сохранения не существует!');
-		}
 	}
 }
